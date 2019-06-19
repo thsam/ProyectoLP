@@ -1,6 +1,8 @@
 import ply.lex as lex
+import ply.yacc as yacc
 tokens = ['NAME', 'COMMENT', 'MAYOR', 'MENOR''PUNTO', 'NUMBER', 'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'EQUALS', 'LPAREN',
-          'RPAREN', 'LCORC', 'RCORC', 'LLLAVE', 'RLLAVE', 'EXP', 'COMA', 'DPUNTOS']
+          'RPAREN', 'LCORC', 'RCORC', 'LLLAVE', 'RLLAVE', 'EXP', 'COMA', 'DPUNTOS','COMSIMPLE',
+          'COMDOBLE','IF']
 t_PLUS = r'\+'
 t_MINUS = r'\-'
 t_TIMES = r'\*'
@@ -18,6 +20,9 @@ t_DPUNTOS = r'\:'
 t_PUNTO = r'\.'
 t_MAYOR = r'>'
 t_MENOR = r'<'
+t_COMSIMPLE=r'\''
+t_COMDOBLE=r'\"'
+t_IF=r'if'
 
 
 # alternativa
@@ -86,3 +91,39 @@ print(encriptar('programas'))'''
 imprimir_token(basico,lexer)
 imprimir_token(intermedio,lexer)
 imprimir_token(avanzado,lexer)
+
+
+def p_expr_funcion(p):
+
+	'''expr_funcion: NAME LPAREN params RPAREN''' 
+def p_params(p):
+
+	'''params:variable
+			 |params COMA variable'''
+
+def p_variable(p):
+	'''variable: NAME
+				|expr_str
+				|NUMBER
+				|expr_float
+				|expr_funcion'''
+def p_expr_str(p):
+	'''expr_str: COMSIMPLE NAME COMSIMPLE
+				|COMDOBLE NAME COMDOBLE'''
+
+def p_expr_float(p):
+	'''expr_float:NUMBER PUNTO NUMBER'''
+
+def p_expr_ def_funcion(p):
+	'''expr_def_funcion: DEF expr_Funcion DPUNTOS'''
+def p_linea_codigo(p):
+	'''linea_codigo: expr_funcion
+							|expr_asign'''
+
+def p_expr_asign(p):
+	'''expr_asign: NAME EQUALS variable'''
+
+def p_expr_return(p):
+	'''expr_return: RETURN variable'''
+
+yacc.yacc()
