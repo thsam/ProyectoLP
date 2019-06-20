@@ -2,7 +2,7 @@ import ply.lex as lex
 import ply.yacc as yacc
 tokens = ['NAME', 'COMMENT', 'MAYOR', 'MENOR''PUNTO', 'NUMBER', 'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'EQUALS', 'LPAREN',
           'RPAREN', 'LCORC', 'RCORC', 'LLLAVE', 'RLLAVE', 'EXP', 'COMA', 'DPUNTOS','COMSIMPLE',
-          'COMDOBLE','IF','DIVISION','NEGADOR']
+          'COMDOBLE','IF','DIVISION','NEGADOR','IN','RANGE']
 t_PLUS = r'\+'
 t_MINUS = r'\-'
 t_TIMES = r'\*'
@@ -25,6 +25,8 @@ t_COMSIMPLE=r'\''
 t_COMDOBLE=r'\"'
 t_IF=r'if'
 t_NEGADOR=r'!'
+t_IN=r'in'
+t_RANGE=r'range'
 
 
 # alternativa
@@ -107,7 +109,11 @@ def p_variable(p):
 				|NUMBER
 				|expr_float
 				|expr_funcion
-				|operacion'''
+				|operacion
+				|lista'''
+
+def p_lista(p):
+	'''lista:NAME LCORC variable RCORC'''
 
 def p_expr_str(p):
 	'''expr_str: COMSIMPLE NAME COMSIMPLE
@@ -118,12 +124,16 @@ def p_expr_float(p):
 
 def p_expr_ def_funcion(p):
 	'''expr_def_funcion: DEF expr_Funcion DPUNTOS'''
+
 def p_linea_codigo(p):
 	'''linea_codigo: expr_funcion
 					|expr_asign
 					|expr_condition
+					|p_params_for
 					|expr_return '''
-
+def p_codigo_interno(p):
+	'''codigo_interno:	linea_codigo
+						|codigo_interno linea_codigo''' 
 def p_expr_asign(p):
 	'''expr_asign: NAME EQUALS variable'''
 def p_expr_Operator(p):
@@ -135,5 +145,13 @@ def p_expr_condition(p):
 	''' expr_condition: IF|ELIF|ELSE LPAREN COND RPAREN DPUNTOS linea_codigo|expr_condition '''
 def p_COND(p):
 	'''COND: variable|expr_funcion Operator variable|expr_funcion'''
+def p_def_for(p):
+	'''def_for: FOR variable IN RANGE LPAREN params_for RPAREN DOSPUNTOS'''
+
+def p_params_for(p):
+	'''params_for:	variable
+					|variable COMA variable
+					|variable  COMA variable COMA variable'''
+
 
 yacc.yacc()
