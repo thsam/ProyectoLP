@@ -2,11 +2,12 @@ import ply.lex as lex
 import ply.yacc as yacc
 tokens = ['NAME', 'COMMENT', 'MAYOR', 'MENOR''PUNTO', 'NUMBER', 'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'EQUALS', 'LPAREN',
           'RPAREN', 'LCORC', 'RCORC', 'LLLAVE', 'RLLAVE', 'EXP', 'COMA', 'DPUNTOS','COMSIMPLE',
-          'COMDOBLE','IF']
+          'COMDOBLE','IF','DIVISION','NEGADOR']
 t_PLUS = r'\+'
 t_MINUS = r'\-'
 t_TIMES = r'\*'
 t_EXP = r'\*\*'
+t_DIVISION=r'/'
 t_EQUALS = r'='
 t_NAME = r'[a-zA-Z_][a-zA-Z0-9_]*'
 t_LPAREN = r'\('
@@ -23,6 +24,7 @@ t_MENOR = r'<'
 t_COMSIMPLE=r'\''
 t_COMDOBLE=r'\"'
 t_IF=r'if'
+t_NEGADOR=r'!'
 
 
 # alternativa
@@ -31,9 +33,7 @@ t_IF=r'if'
 # r'\#.*'
 def t_COMMENT(t):
     r'(\#.*|\'\'\'.*\'\'\')'
-
-
-pass
+	pass
 
 
 # No return value. Token discarde
@@ -106,7 +106,9 @@ def p_variable(p):
 				|expr_str
 				|NUMBER
 				|expr_float
-				|expr_funcion'''
+				|expr_funcion
+				|operacion'''
+
 def p_expr_str(p):
 	'''expr_str: COMSIMPLE NAME COMSIMPLE
 				|COMDOBLE NAME COMDOBLE'''
@@ -118,12 +120,20 @@ def p_expr_ def_funcion(p):
 	'''expr_def_funcion: DEF expr_Funcion DPUNTOS'''
 def p_linea_codigo(p):
 	'''linea_codigo: expr_funcion
-							|expr_asign'''
+					|expr_asign
+					|expr_condition
+					|expr_return '''
 
 def p_expr_asign(p):
 	'''expr_asign: NAME EQUALS variable'''
-
+def p_expr_Operator(p):
+	'''expr_Operator: MAYOR|MENOR|EQUALS EQUALS|MAYOR EQUALS|MENOS EQUALS|NEGADOR EQUALS  '''
 def p_expr_return(p):
 	'''expr_return: RETURN variable'''
+
+def p_expr_condition(p):
+	''' expr_condition: IF|ELIF|ELSE LPAREN COND RPAREN DPUNTOS linea_codigo|expr_condition '''
+def p_COND(p):
+	'''COND: variable|expr_funcion Operator variable|expr_funcion'''
 
 yacc.yacc()
