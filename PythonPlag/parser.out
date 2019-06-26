@@ -1,0 +1,467 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    COMMENT
+    DIVIDE
+    EXP
+    LLLAVE
+    MINUS
+    PLUS
+    RLLAVE
+    TIMES
+
+Grammar
+
+Rule 0     S' -> expr_funcion
+Rule 1     expr_funcion -> NAME LPAREN params RPAREN
+Rule 2     expr_funcion -> NAME LPAREN RPAREN
+Rule 3     params -> variable
+Rule 4     params -> params COMA variable
+Rule 5     params -> expr_funcion
+Rule 6     variable -> NAME
+Rule 7     variable -> expr_str
+Rule 8     variable -> NUMBER
+Rule 9     variable -> expr_float
+Rule 10    variable -> bool
+Rule 11    variable -> lista
+Rule 12    lista -> NAME LCORC variable RCORC
+Rule 13    expr_str -> COMSIMPLE NAME COMSIMPLE
+Rule 14    expr_str -> COMDOBLE NAME COMDOBLE
+Rule 15    expr_float -> NUMBER PUNTO NUMBER
+Rule 16    expr_def_funcion -> DEF expr_funcion DPUNTOS
+Rule 17    linea_codigo -> expr_funcion
+Rule 18    linea_codigo -> expr_asign
+Rule 19    linea_codigo -> expr_if_else
+Rule 20    linea_codigo -> params_for
+Rule 21    linea_codigo -> expr_return
+Rule 22    codigo_interno -> linea_codigo
+Rule 23    codigo_interno -> codigo_interno linea_codigo
+Rule 24    expr_asign -> NAME EQUALS variable
+Rule 25    operador_igualdad -> MAYOR
+Rule 26    operador_igualdad -> MENOR
+Rule 27    operador_igualdad -> EQUALS EQUALS
+Rule 28    operador_igualdad -> MAYOR EQUALS
+Rule 29    operador_igualdad -> MENOR EQUALS
+Rule 30    operador_igualdad -> NEGADOR EQUALS
+Rule 31    expr_return -> RETURN variable
+Rule 32    expr_return -> RETURN expr_funcion
+Rule 33    expr_if_else -> IF condiciones DPUNTOS
+Rule 34    expr_if_else -> ELIF condiciones DPUNTOS
+Rule 35    expr_if_else -> ELSE DPUNTOS
+Rule 36    condiciones -> variable
+Rule 37    condiciones -> expr_funcion operador_igualdad variable
+Rule 38    condiciones -> expr_funcion
+Rule 39    condiciones -> expr_funcion operador_igualdad expr_funcion
+Rule 40    condiciones -> variable operador_igualdad expr_funcion
+Rule 41    condiciones_para_expr_if_else -> condiciones
+Rule 42    condiciones_para_expr_if_else -> condiciones_para_expr_if_else and_or condiciones
+Rule 43    def_for -> FOR variable IN RANGE LPAREN params_for RPAREN DPUNTOS
+Rule 44    params_for -> variable
+Rule 45    params_for -> variable COMA variable
+Rule 46    params_for -> variable COMA variable COMA variable
+Rule 47    bool -> TRUE
+Rule 48    bool -> FALSE
+Rule 49    and_or -> AND
+Rule 50    and_or -> OR
+
+Terminals, with rules where they appear
+
+AND                  : 49
+COMA                 : 4 45 46 46
+COMDOBLE             : 14 14
+COMMENT              : 
+COMSIMPLE            : 13 13
+DEF                  : 16
+DIVIDE               : 
+DPUNTOS              : 16 33 34 35 43
+ELIF                 : 34
+ELSE                 : 35
+EQUALS               : 24 27 27 28 29 30
+EXP                  : 
+FALSE                : 48
+FOR                  : 43
+IF                   : 33
+IN                   : 43
+LCORC                : 12
+LLLAVE               : 
+LPAREN               : 1 2 43
+MAYOR                : 25 28
+MENOR                : 26 29
+MINUS                : 
+NAME                 : 1 2 6 12 13 14 24
+NEGADOR              : 30
+NUMBER               : 8 15 15
+OR                   : 50
+PLUS                 : 
+PUNTO                : 15
+RANGE                : 43
+RCORC                : 12
+RETURN               : 31 32
+RLLAVE               : 
+RPAREN               : 1 2 43
+TIMES                : 
+TRUE                 : 47
+error                : 
+
+Nonterminals, with rules where they appear
+
+and_or               : 42
+bool                 : 10
+codigo_interno       : 23
+condiciones          : 33 34 41 42
+condiciones_para_expr_if_else : 42
+def_for              : 
+expr_asign           : 18
+expr_def_funcion     : 
+expr_float           : 9
+expr_funcion         : 5 16 17 32 37 38 39 39 40 0
+expr_if_else         : 19
+expr_return          : 21
+expr_str             : 7
+linea_codigo         : 22 23
+lista                : 11
+operador_igualdad    : 37 39 40
+params               : 1 4
+params_for           : 20 43
+variable             : 3 4 12 24 31 36 37 40 43 44 45 45 46 46 46
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . expr_funcion
+    (1) expr_funcion -> . NAME LPAREN params RPAREN
+    (2) expr_funcion -> . NAME LPAREN RPAREN
+
+    NAME            shift and go to state 2
+
+    expr_funcion                   shift and go to state 1
+
+state 1
+
+    (0) S' -> expr_funcion .
+
+
+
+state 2
+
+    (1) expr_funcion -> NAME . LPAREN params RPAREN
+    (2) expr_funcion -> NAME . LPAREN RPAREN
+
+    LPAREN          shift and go to state 3
+
+
+state 3
+
+    (1) expr_funcion -> NAME LPAREN . params RPAREN
+    (2) expr_funcion -> NAME LPAREN . RPAREN
+    (3) params -> . variable
+    (4) params -> . params COMA variable
+    (5) params -> . expr_funcion
+    (6) variable -> . NAME
+    (7) variable -> . expr_str
+    (8) variable -> . NUMBER
+    (9) variable -> . expr_float
+    (10) variable -> . bool
+    (11) variable -> . lista
+    (1) expr_funcion -> . NAME LPAREN params RPAREN
+    (2) expr_funcion -> . NAME LPAREN RPAREN
+    (13) expr_str -> . COMSIMPLE NAME COMSIMPLE
+    (14) expr_str -> . COMDOBLE NAME COMDOBLE
+    (15) expr_float -> . NUMBER PUNTO NUMBER
+    (47) bool -> . TRUE
+    (48) bool -> . FALSE
+    (12) lista -> . NAME LCORC variable RCORC
+
+    RPAREN          shift and go to state 6
+    NAME            shift and go to state 4
+    NUMBER          shift and go to state 10
+    COMSIMPLE       shift and go to state 14
+    COMDOBLE        shift and go to state 15
+    TRUE            shift and go to state 16
+    FALSE           shift and go to state 17
+
+    params                         shift and go to state 5
+    variable                       shift and go to state 7
+    expr_funcion                   shift and go to state 8
+    expr_str                       shift and go to state 9
+    expr_float                     shift and go to state 11
+    bool                           shift and go to state 12
+    lista                          shift and go to state 13
+
+state 4
+
+    (6) variable -> NAME .
+    (1) expr_funcion -> NAME . LPAREN params RPAREN
+    (2) expr_funcion -> NAME . LPAREN RPAREN
+    (12) lista -> NAME . LCORC variable RCORC
+
+    RPAREN          reduce using rule 6 (variable -> NAME .)
+    COMA            reduce using rule 6 (variable -> NAME .)
+    LPAREN          shift and go to state 3
+    LCORC           shift and go to state 18
+
+
+state 5
+
+    (1) expr_funcion -> NAME LPAREN params . RPAREN
+    (4) params -> params . COMA variable
+
+    RPAREN          shift and go to state 19
+    COMA            shift and go to state 20
+
+
+state 6
+
+    (2) expr_funcion -> NAME LPAREN RPAREN .
+
+    $end            reduce using rule 2 (expr_funcion -> NAME LPAREN RPAREN .)
+    RPAREN          reduce using rule 2 (expr_funcion -> NAME LPAREN RPAREN .)
+    COMA            reduce using rule 2 (expr_funcion -> NAME LPAREN RPAREN .)
+
+
+state 7
+
+    (3) params -> variable .
+
+    RPAREN          reduce using rule 3 (params -> variable .)
+    COMA            reduce using rule 3 (params -> variable .)
+
+
+state 8
+
+    (5) params -> expr_funcion .
+
+    RPAREN          reduce using rule 5 (params -> expr_funcion .)
+    COMA            reduce using rule 5 (params -> expr_funcion .)
+
+
+state 9
+
+    (7) variable -> expr_str .
+
+    RPAREN          reduce using rule 7 (variable -> expr_str .)
+    COMA            reduce using rule 7 (variable -> expr_str .)
+    RCORC           reduce using rule 7 (variable -> expr_str .)
+
+
+state 10
+
+    (8) variable -> NUMBER .
+    (15) expr_float -> NUMBER . PUNTO NUMBER
+
+    RPAREN          reduce using rule 8 (variable -> NUMBER .)
+    COMA            reduce using rule 8 (variable -> NUMBER .)
+    RCORC           reduce using rule 8 (variable -> NUMBER .)
+    PUNTO           shift and go to state 21
+
+
+state 11
+
+    (9) variable -> expr_float .
+
+    RPAREN          reduce using rule 9 (variable -> expr_float .)
+    COMA            reduce using rule 9 (variable -> expr_float .)
+    RCORC           reduce using rule 9 (variable -> expr_float .)
+
+
+state 12
+
+    (10) variable -> bool .
+
+    RPAREN          reduce using rule 10 (variable -> bool .)
+    COMA            reduce using rule 10 (variable -> bool .)
+    RCORC           reduce using rule 10 (variable -> bool .)
+
+
+state 13
+
+    (11) variable -> lista .
+
+    RPAREN          reduce using rule 11 (variable -> lista .)
+    COMA            reduce using rule 11 (variable -> lista .)
+    RCORC           reduce using rule 11 (variable -> lista .)
+
+
+state 14
+
+    (13) expr_str -> COMSIMPLE . NAME COMSIMPLE
+
+    NAME            shift and go to state 22
+
+
+state 15
+
+    (14) expr_str -> COMDOBLE . NAME COMDOBLE
+
+    NAME            shift and go to state 23
+
+
+state 16
+
+    (47) bool -> TRUE .
+
+    RPAREN          reduce using rule 47 (bool -> TRUE .)
+    COMA            reduce using rule 47 (bool -> TRUE .)
+    RCORC           reduce using rule 47 (bool -> TRUE .)
+
+
+state 17
+
+    (48) bool -> FALSE .
+
+    RPAREN          reduce using rule 48 (bool -> FALSE .)
+    COMA            reduce using rule 48 (bool -> FALSE .)
+    RCORC           reduce using rule 48 (bool -> FALSE .)
+
+
+state 18
+
+    (12) lista -> NAME LCORC . variable RCORC
+    (6) variable -> . NAME
+    (7) variable -> . expr_str
+    (8) variable -> . NUMBER
+    (9) variable -> . expr_float
+    (10) variable -> . bool
+    (11) variable -> . lista
+    (13) expr_str -> . COMSIMPLE NAME COMSIMPLE
+    (14) expr_str -> . COMDOBLE NAME COMDOBLE
+    (15) expr_float -> . NUMBER PUNTO NUMBER
+    (47) bool -> . TRUE
+    (48) bool -> . FALSE
+    (12) lista -> . NAME LCORC variable RCORC
+
+    NAME            shift and go to state 24
+    NUMBER          shift and go to state 10
+    COMSIMPLE       shift and go to state 14
+    COMDOBLE        shift and go to state 15
+    TRUE            shift and go to state 16
+    FALSE           shift and go to state 17
+
+    variable                       shift and go to state 25
+    expr_str                       shift and go to state 9
+    expr_float                     shift and go to state 11
+    bool                           shift and go to state 12
+    lista                          shift and go to state 13
+
+state 19
+
+    (1) expr_funcion -> NAME LPAREN params RPAREN .
+
+    $end            reduce using rule 1 (expr_funcion -> NAME LPAREN params RPAREN .)
+    RPAREN          reduce using rule 1 (expr_funcion -> NAME LPAREN params RPAREN .)
+    COMA            reduce using rule 1 (expr_funcion -> NAME LPAREN params RPAREN .)
+
+
+state 20
+
+    (4) params -> params COMA . variable
+    (6) variable -> . NAME
+    (7) variable -> . expr_str
+    (8) variable -> . NUMBER
+    (9) variable -> . expr_float
+    (10) variable -> . bool
+    (11) variable -> . lista
+    (13) expr_str -> . COMSIMPLE NAME COMSIMPLE
+    (14) expr_str -> . COMDOBLE NAME COMDOBLE
+    (15) expr_float -> . NUMBER PUNTO NUMBER
+    (47) bool -> . TRUE
+    (48) bool -> . FALSE
+    (12) lista -> . NAME LCORC variable RCORC
+
+    NAME            shift and go to state 24
+    NUMBER          shift and go to state 10
+    COMSIMPLE       shift and go to state 14
+    COMDOBLE        shift and go to state 15
+    TRUE            shift and go to state 16
+    FALSE           shift and go to state 17
+
+    variable                       shift and go to state 26
+    expr_str                       shift and go to state 9
+    expr_float                     shift and go to state 11
+    bool                           shift and go to state 12
+    lista                          shift and go to state 13
+
+state 21
+
+    (15) expr_float -> NUMBER PUNTO . NUMBER
+
+    NUMBER          shift and go to state 27
+
+
+state 22
+
+    (13) expr_str -> COMSIMPLE NAME . COMSIMPLE
+
+    COMSIMPLE       shift and go to state 28
+
+
+state 23
+
+    (14) expr_str -> COMDOBLE NAME . COMDOBLE
+
+    COMDOBLE        shift and go to state 29
+
+
+state 24
+
+    (6) variable -> NAME .
+    (12) lista -> NAME . LCORC variable RCORC
+
+    RCORC           reduce using rule 6 (variable -> NAME .)
+    RPAREN          reduce using rule 6 (variable -> NAME .)
+    COMA            reduce using rule 6 (variable -> NAME .)
+    LCORC           shift and go to state 18
+
+
+state 25
+
+    (12) lista -> NAME LCORC variable . RCORC
+
+    RCORC           shift and go to state 30
+
+
+state 26
+
+    (4) params -> params COMA variable .
+
+    RPAREN          reduce using rule 4 (params -> params COMA variable .)
+    COMA            reduce using rule 4 (params -> params COMA variable .)
+
+
+state 27
+
+    (15) expr_float -> NUMBER PUNTO NUMBER .
+
+    RPAREN          reduce using rule 15 (expr_float -> NUMBER PUNTO NUMBER .)
+    COMA            reduce using rule 15 (expr_float -> NUMBER PUNTO NUMBER .)
+    RCORC           reduce using rule 15 (expr_float -> NUMBER PUNTO NUMBER .)
+
+
+state 28
+
+    (13) expr_str -> COMSIMPLE NAME COMSIMPLE .
+
+    RPAREN          reduce using rule 13 (expr_str -> COMSIMPLE NAME COMSIMPLE .)
+    COMA            reduce using rule 13 (expr_str -> COMSIMPLE NAME COMSIMPLE .)
+    RCORC           reduce using rule 13 (expr_str -> COMSIMPLE NAME COMSIMPLE .)
+
+
+state 29
+
+    (14) expr_str -> COMDOBLE NAME COMDOBLE .
+
+    RPAREN          reduce using rule 14 (expr_str -> COMDOBLE NAME COMDOBLE .)
+    COMA            reduce using rule 14 (expr_str -> COMDOBLE NAME COMDOBLE .)
+    RCORC           reduce using rule 14 (expr_str -> COMDOBLE NAME COMDOBLE .)
+
+
+state 30
+
+    (12) lista -> NAME LCORC variable RCORC .
+
+    RPAREN          reduce using rule 12 (lista -> NAME LCORC variable RCORC .)
+    COMA            reduce using rule 12 (lista -> NAME LCORC variable RCORC .)
+    RCORC           reduce using rule 12 (lista -> NAME LCORC variable RCORC .)
+
