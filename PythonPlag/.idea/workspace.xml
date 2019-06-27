@@ -4,6 +4,7 @@
     <list default="true" id="e14eec08-e909-4b61-9c27-0cadafb145f4" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PythonPlag.py" beforeDir="false" afterPath="$PROJECT_DIR$/PythonPlag.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/basico.py" beforeDir="false" afterPath="$PROJECT_DIR$/basico.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/parser.out" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/parsetab.py" beforeDir="false" />
     </list>
@@ -14,12 +15,12 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file pinned="false" current-in-tab="false">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/PythonPlag.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="115" column="27" selection-start-line="115" selection-start-column="27" selection-end-line="115" selection-end-column="27" />
+            <state relative-caret-position="170">
+              <caret line="251" column="103" selection-start-line="251" selection-start-column="103" selection-end-line="251" selection-end-column="103" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
               </folding>
@@ -27,11 +28,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/parser.out">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/avanzado.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="154">
-              <caret line="789" column="51" lean-forward="true" selection-start-line="789" selection-start-column="46" selection-end-line="789" selection-end-column="51" />
+            <state relative-caret-position="119">
+              <caret line="7" column="11" lean-forward="true" selection-start-line="7" selection-start-column="11" selection-end-line="7" selection-end-column="11" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/intermedio.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret selection-end-line="9" selection-end-column="22" />
             </state>
           </provider>
         </entry>
@@ -39,8 +49,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/basico.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="1" selection-start-line="1" selection-end-line="6" selection-end-column="7" />
+            <state relative-caret-position="68">
+              <caret line="4" column="9" lean-forward="true" selection-start-line="4" selection-start-column="9" selection-end-line="4" selection-end-column="9" />
             </state>
           </provider>
         </entry>
@@ -49,36 +59,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>operador_alge</find>
-      <find>if_else</find>
-      <find>condiciones_para_expr_if_else</find>
-      <find>condiciones</find>
-      <find>ignore</find>
-      <find>suma</find>
-      <find>uma</find>
-      <find>str</find>
-      <find>print</find>
-      <find>t_error</find>
-      <find>t_for</find>
-      <find>DEF</find>
-      <find>DEF</find>
-      <find>expr_fun</find>
-      <find>expr_def_funcion</find>
-      <find>bas</find>
-      <find>num</find>
-      <find>numero</find>
-      <find>_expr_funcion</find>
-      <find>expr_funcion</find>
-      <find>pass</find>
-      <find>_ID</find>
-      <find>basico</find>
-      <find>t_ignore</find>
-      <find>'s</find>
+      <find>algeb</find>
+      <find>ID</find>
       <find>NAME</find>
-      <find>p[0</find>
-      <find>shift/re</find>
-      <find>def</find>
-      <find>preceden</find>
+      <find>lex</find>
+      <find>lex.</find>
+      <find>def_</find>
+      <find>bloque</find>
+      <find>EQUALS</find>
+      <find>operador_igualdad</find>
+      <find>IF</find>
+      <find>expr_if_else</find>
+      <find>operacion</find>
+      <find>operador_igual</find>
+      <find>lista :</find>
+      <find>lista</find>
+      <find>DEQUALS</find>
+      <find>variable</find>
+      <find>expr_str</find>
+      <find>expr_funcion</find>
+      <find>params</find>
+      <find>asign</find>
+      <find>linea_codigo</find>
+      <find>\&quot;</find>
+      <find>params_for</find>
+      <find>operacion_alge</find>
+      <find>alge</find>
+      <find>condiciones_expr_if_else</find>
+      <find>if</find>
+      <find>basico</find>
+      <find>operaciones_algebraica</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -88,9 +98,9 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/parser.out" />
+        <option value="$PROJECT_DIR$/test.py" />
         <option value="$PROJECT_DIR$/basico.py" />
         <option value="$PROJECT_DIR$/avanzado.py" />
-        <option value="$PROJECT_DIR$/test.py" />
         <option value="$PROJECT_DIR$/PythonPlag.py" />
       </list>
     </option>
@@ -106,8 +116,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="249" />
-    <option name="y" value="44" />
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
     <option name="width" value="1346" />
     <option name="height" value="689" />
   </component>
@@ -238,20 +248,6 @@
     </layout>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/avanzado.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="27" selection-start-line="11" selection-start-column="27" selection-end-line="11" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/intermedio.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret selection-end-line="9" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
@@ -269,27 +265,41 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/parser.out">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2611">
+          <caret line="26" column="20" selection-start-line="26" selection-start-column="20" selection-end-line="26" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/basico.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" selection-start-line="1" selection-end-line="6" selection-end-column="7" />
+        <state relative-caret-position="68">
+          <caret line="4" column="9" lean-forward="true" selection-start-line="4" selection-start-column="9" selection-end-line="4" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/intermedio.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-line="9" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/avanzado.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="11" lean-forward="true" selection-start-line="7" selection-start-column="11" selection-end-line="7" selection-end-column="11" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/PythonPlag.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="115" column="27" selection-start-line="115" selection-start-column="27" selection-end-line="115" selection-end-column="27" />
+        <state relative-caret-position="170">
+          <caret line="251" column="103" selection-start-line="251" selection-start-column="103" selection-end-line="251" selection-end-column="103" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/parser.out">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="154">
-          <caret line="789" column="51" lean-forward="true" selection-start-line="789" selection-start-column="46" selection-end-line="789" selection-end-column="51" />
         </state>
       </provider>
     </entry>
