@@ -9,4 +9,4 @@ def encriptar(cadena):
   if(n%2!=0):
     r=r+cadena[n-1]
   return r
-print(encriptar('programas'))
+print(encriptar("programas"))

@@ -1,44 +1,55 @@
 import ply.lex as lex
 import ply.yacc as yacc
-tokens = ['NAME','DEF', 'COMMENT', 'MAYOR', 'MENOR','PUNTO', 'NUMBER', 'PLUS',
-		  'MINUS', 'TIMES', 'DIVIDE', 'EQUALS', 'LPAREN',
-		  'RPAREN', 'LCORC', 'RCORC', 'LLLAVE', 'RLLAVE', 'EXP', 'COMA', 'DPUNTOS','COMSIMPLE',
-		  'COMDOBLE','IF','ELIF','ELSE','AND','OR',
-		  'NEGADOR','IN','RANGE','RETURN','FOR', 'TRUE', 'FALSE']
+
+reserved = {'def': 'DEF',
+			'return':'RETURN',
+			'for':'FOR',
+			'if':'IF',
+			'else':'ELSE',
+			'elif':'ELIF',
+			'in':'IN',
+			'range':'RANGE',
+			'True':'TRUE',
+			'False':'FALSE'}
+tokens = ['NAME', 'COMMENT', 'MAYOR', 'MENOR','PUNTO',
+		  'NUMBER','STRING',
+		  'PLUS','MINUS', 'TIMES', 'DIVIDE', 'EQUALS','MOD',
+		  'LPAREN','RPAREN',
+		  'LCORC', 'RCORC',
+#		  'LLLAVE', 'RLLAVE',
+		  'EXP', 'COMA', 'DPUNTOS',
+		  'AND','OR',
+		  'NEGADOR']+ list(reserved.values())
+
+t_STRING = r'\".*?\"'
+t_MOD = r'\%'
 t_PLUS = r'\+'
-t_DEF = r'def'
 t_MINUS = r'\-'
 t_TIMES = r'\*'
 t_EXP = r'\*\*'
 t_DIVIDE = r'/'
 t_EQUALS = r'='
-t_NAME = r'[a-zA-Z_][a-zA-Z0-9_]*'
+t_NAME = '[a-zA-Z_][a-zA-Z0-9_]*'
 t_LPAREN = r'\('
 t_RPAREN = r'\)'
 t_LCORC = r'\['
-t_RLLAVE = r'\]'
-t_LLLAVE = r'\}'
+t_RCORC = r'\]'
+#t_RLLAVE = r'\]'
+#t_LLLAVE = r'\}'
 t_COMA = r'\,'
 t_DPUNTOS = r'\:'
 t_PUNTO = r'\.'
 t_MAYOR = r'>'
 t_MENOR = r'<'
-t_COMSIMPLE = r'\''
-t_COMDOBLE = r'\"'
-t_IF=r'if'
 t_NEGADOR = r'!'
-t_IN = r'in'
-t_RANGE = r'range'
-t_RETURN = r'return'
-t_ELIF = r'elif'
-t_ELSE = r'else'
-t_FOR = r'for'
-t_TRUE = r'True'
-t_FALSE = r'False'
 t_AND = r'\&'
 t_OR = r'\|'
 
 
+def t_ID(t):
+    r'[a-zA-Z_][a-zA-Z_0-9]*'
+    t.type = reserved.get(t.value, 'ID')  # Check for reserved words
+    # return t
 
 # alternativa
 # t_ignore_COMMENT = r'\#.*
@@ -58,7 +69,7 @@ def t_NUMBER(t):
 
 # Ignored characters
 
-t_ignore = " \t"
+t_ignore = "\s | \t"
 
 
 def t_newline(t):
@@ -72,6 +83,7 @@ def t_error(t):
     t.lexer.skip(1)
 
 
+
 # Se construye el lex
 lexer = lex.lex()
 def imprimir_token(data,lexer):
@@ -81,8 +93,18 @@ def imprimir_token(data,lexer):
         if not tok:
             break  # No more input
         print(tok)
-basico = '''def suma(a,b):
-	return a+b'''
+		
+basico = '''def numerospares(n):
+    #creamos lista
+    lista=[]
+    for i in range(n):
+        valor=int(input("ingrese numero: "))
+        if(valor%2==0):
+            lista.append(valor)
+    return lista
+
+print(numerospares(7))
+'''
 
 
 
@@ -112,12 +134,13 @@ def p_variable(p):
 
 #regla para definir una lista
 def p_lista(p):
-    '''lista : NAME LCORC variable RCORC'''
+    '''lista : NAME LCORC variable RCORC
+             | NAME LCORC RCORC
+             | NAME LCORC operaciones_algebraica RCORC'''
 
 #regla para definir n string
 def p_expr_str(p):
-    '''expr_str : COMSIMPLE NAME COMSIMPLE
-				| COMDOBLE NAME COMDOBLE'''
+    '''expr_str : STRING'''
 
 #regla para definir una expresion float
 def p_expr_float(p):
@@ -125,23 +148,22 @@ def p_expr_float(p):
 
 #regla para definir una expresion de funcion generica
 def p_expr_def_funcion(p):
-    '''expr_def_funcion : DEF expr_funcion DPUNTOS'''
+    r'''expr_def_funcion : DEF expr_funcion DPUNTOS'''
 
 #regla para definir cualquier linea de codigo
 def p_linea_codigo(p):
     '''linea_codigo : expr_funcion
 					| expr_asign
 					| expr_if_else
-					| params_for
-					| expr_return '''
+					| def_for
+					| expr_return
+					| expr_def_funcion
+					| COMMENT'''
 
-#por definir.... creo que no deberia ir esto y solo es linea_codigo
-def p_codigo_interno(p):
-    '''codigo_interno : linea_codigo
-                      | codigo_interno linea_codigo'''
 #regla para definir una asignacion de valores
 def p_expr_asign(p):
-    '''expr_asign : NAME EQUALS variable'''
+    '''expr_asign : NAME EQUALS variable
+                  | NAME EQUALS operaciones_algebraica'''
 
 #regla para definir los operadores de igualdad
 def p_operador_igualdad(p):
@@ -155,12 +177,13 @@ def p_operador_igualdad(p):
 #regla para definir una expresion retorno
 def p_expr_return(p):
     '''expr_return : RETURN variable
-                   | RETURN expr_funcion'''
+                   | RETURN expr_funcion
+                   | RETURN operaciones_algebraica'''
 
 #regla para definir los operadores de condicion
 def p_expr_if_else(p):
-    ''' expr_if_else : IF condiciones DPUNTOS
-                       | ELIF condiciones DPUNTOS
+    ''' expr_if_else : IF condiciones_para_expr_if_else DPUNTOS
+                       | ELIF condiciones_para_expr_if_else DPUNTOS
                        | ELSE DPUNTOS'''
 
 #regla para los diferentes tipos de condicones que pueden existir
@@ -169,7 +192,11 @@ def p_condiciones(p):
                     | expr_funcion operador_igualdad variable
                     | expr_funcion
                     | expr_funcion operador_igualdad expr_funcion
-                    | variable operador_igualdad expr_funcion '''
+                    | variable operador_igualdad expr_funcion
+                    | operaciones_algebraica operador_igualdad expr_funcion
+                    | operaciones_algebraica operador_igualdad variable
+                    | variable operador_igualdad operaciones_algebraica
+                    | expr_funcion operador_igualdad operaciones_algebraica'''
 
 #regla para las condiciones dentro de un if-else
 def p_codiciones_para_expr_if_else(p):
@@ -196,4 +223,28 @@ def p_and_or(p):
 	''' and_or : AND
                | OR'''
 
+#regla paraoperaciones algebraica
+def p_operaciones_algebraica(p):
+	'''operaciones_algebraica : variable operador_alge variable
+                              | LPAREN variable operador_alge variable RPAREN
+                              |  operaciones_algebraica operador_alge variable
+                              | variable operador_alge operaciones_algebraica'''
+
+# regla para operadores algebraico
+def p_operador_alge(p):
+	'''operador_alge : PLUS
+	                 | MINUS
+	                 | TIMES
+	                 | DIVIDE
+	                 | EXP
+	                 | MOD'''
+
+
+def p_error(p):
+    if p == None:
+        token = "end of file"
+    else:
+      token = f"{p.type}({p.value}) on line {p.lineno}"
+    print(f"Syntax error: Unexpected {token}")
 yacc.yacc()
+yacc.parse(basico)
