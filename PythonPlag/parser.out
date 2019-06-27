@@ -1,5 +1,9 @@
 Created by PLY version 3.11 (http://www.dabeaz.com/ply)
 
+Unused terminals:
+
+    ID
+
 Grammar
 
 Rule 0     S' -> expr_funcion
@@ -70,6 +74,7 @@ Rule 64    operador_alge -> TIMES
 Rule 65    operador_alge -> DIVIDE
 Rule 66    operador_alge -> EXP
 Rule 67    operador_alge -> MOD
+Rule 68    empty -> <empty>
 
 Terminals, with rules where they appear
 
@@ -85,6 +90,7 @@ EQUALS               : 25 26 29 29 30 31 32
 EXP                  : 66
 FALSE                : 55
 FOR                  : 50
+ID                   : 
 IF                   : 36
 IN                   : 50
 LCORC                : 12 13 14
@@ -115,6 +121,7 @@ bool                 : 10
 condiciones          : 48 49
 condiciones_para_expr_if_else : 36 37 49
 def_for              : 21
+empty                : 
 expr_asign           : 19
 expr_def_funcion     : 23
 expr_float           : 9

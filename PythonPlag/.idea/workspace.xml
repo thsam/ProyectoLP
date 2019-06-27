@@ -4,9 +4,8 @@
     <list default="true" id="e14eec08-e909-4b61-9c27-0cadafb145f4" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PythonPlag.py" beforeDir="false" afterPath="$PROJECT_DIR$/PythonPlag.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/avanzado.py" beforeDir="false" afterPath="$PROJECT_DIR$/avanzado.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/parser.out" beforeDir="false" afterPath="$PROJECT_DIR$/parser.out" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/parsetab.py" beforeDir="false" afterPath="$PROJECT_DIR$/parsetab.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/parser.out" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/parsetab.py" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -16,11 +15,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/PythonPlag.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="128">
-              <caret line="95" column="8" lean-forward="true" selection-start-line="95" selection-start-column="8" selection-end-line="95" selection-end-column="8" />
+            <state relative-caret-position="204">
+              <caret line="115" column="27" selection-start-line="115" selection-start-column="27" selection-end-line="115" selection-end-column="27" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
               </folding>
@@ -28,20 +27,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/parser.out">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-5058">
-              <caret line="199" column="25" selection-start-line="199" selection-start-column="25" selection-end-line="199" selection-end-column="25" />
+            <state relative-caret-position="154">
+              <caret line="789" column="51" lean-forward="true" selection-start-line="789" selection-start-column="46" selection-end-line="789" selection-end-column="51" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/parsetab.py">
+        <entry file="file://$PROJECT_DIR$/basico.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1371">
-              <caret line="96" column="1" selection-start-line="96" selection-start-column="1" selection-end-line="96" selection-end-column="1" />
+            <state relative-caret-position="17">
+              <caret line="1" selection-start-line="1" selection-end-line="6" selection-end-column="7" />
             </state>
           </provider>
         </entry>
@@ -50,23 +49,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>expr_if_else</find>
-      <find>def_for</find>
-      <find>and_or</find>
-      <find>def_funcion</find>
-      <find>COMDOBLE</find>
-      <find>COMSIMPLE</find>
-      <find>ALL</find>
-      <find>lex.</find>
-      <find>imprimir_toke</find>
-      <find>NAME</find>
-      <find>funcion</find>
-      <find>PRINT</find>
-      <find>DEF</find>
-      <find>lexer</find>
-      <find>%</find>
-      <find>MOD</find>
-      <find>p_operador_alge</find>
       <find>operador_alge</find>
       <find>if_else</find>
       <find>condiciones_para_expr_if_else</find>
@@ -76,10 +58,27 @@
       <find>uma</find>
       <find>str</find>
       <find>print</find>
-      <find>def</find>
-      <find>basico</find>
       <find>t_error</find>
       <find>t_for</find>
+      <find>DEF</find>
+      <find>DEF</find>
+      <find>expr_fun</find>
+      <find>expr_def_funcion</find>
+      <find>bas</find>
+      <find>num</find>
+      <find>numero</find>
+      <find>_expr_funcion</find>
+      <find>expr_funcion</find>
+      <find>pass</find>
+      <find>_ID</find>
+      <find>basico</find>
+      <find>t_ignore</find>
+      <find>'s</find>
+      <find>NAME</find>
+      <find>p[0</find>
+      <find>shift/re</find>
+      <find>def</find>
+      <find>preceden</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -106,9 +105,9 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="10" />
-    <option name="y" value="20" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="249" />
+    <option name="y" value="44" />
     <option name="width" value="1346" />
     <option name="height" value="689" />
   </component>
@@ -216,11 +215,11 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="10" y="20" width="1346" height="689" extended-state="0" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Favorites" order="0" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.25" />
+      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.24330357" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="0" />
       <window_info anchor="bottom" id="Event Log" order="1" side_tool="true" />
@@ -228,7 +227,7 @@
       <window_info anchor="bottom" id="Message" order="3" />
       <window_info anchor="bottom" id="Find" order="4" />
       <window_info anchor="bottom" id="Version Control" order="5" />
-      <window_info active="true" anchor="bottom" id="Run" order="6" visible="true" weight="0.44604316" />
+      <window_info active="true" anchor="bottom" id="Run" order="6" visible="true" weight="0.28477904" />
       <window_info anchor="bottom" id="Debug" order="7" weight="0.39928058" />
       <window_info anchor="bottom" id="Cvs" order="8" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="9" weight="0.4" />
@@ -239,13 +238,6 @@
     </layout>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/basico.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" selection-start-line="1" selection-end-line="6" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/avanzado.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
@@ -272,25 +264,32 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/parsetab.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1371">
-          <caret line="96" column="1" selection-start-line="96" selection-start-column="1" selection-end-line="96" selection-end-column="1" />
+        <state relative-caret-position="136">
+          <caret line="8" column="81" selection-start-line="8" selection-start-column="81" selection-end-line="8" selection-end-column="81" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/parser.out">
+    <entry file="file://$PROJECT_DIR$/basico.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-5058">
-          <caret line="199" column="25" selection-start-line="199" selection-start-column="25" selection-end-line="199" selection-end-column="25" />
+        <state relative-caret-position="17">
+          <caret line="1" selection-start-line="1" selection-end-line="6" selection-end-column="7" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/PythonPlag.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="128">
-          <caret line="95" column="8" lean-forward="true" selection-start-line="95" selection-start-column="8" selection-end-line="95" selection-end-column="8" />
+        <state relative-caret-position="204">
+          <caret line="115" column="27" selection-start-line="115" selection-start-column="27" selection-end-line="115" selection-end-column="27" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/parser.out">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="154">
+          <caret line="789" column="51" lean-forward="true" selection-start-line="789" selection-start-column="46" selection-end-line="789" selection-end-column="51" />
         </state>
       </provider>
     </entry>

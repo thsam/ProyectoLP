@@ -1,7 +1,7 @@
 import ply.lex as lex
 import ply.yacc as yacc
 
-reserved = {'def': 'DEF',
+reserved = {'def':'DEF',
 			'return':'RETURN',
 			'for':'FOR',
 			'if':'IF',
@@ -11,7 +11,7 @@ reserved = {'def': 'DEF',
 			'range':'RANGE',
 			'True':'TRUE',
 			'False':'FALSE'}
-tokens = ['NAME', 'COMMENT', 'MAYOR', 'MENOR','PUNTO',
+tokens = ['ID','NAME', 'COMMENT', 'MAYOR', 'MENOR','PUNTO',
 		  'NUMBER','STRING',
 		  'PLUS','MINUS', 'TIMES', 'DIVIDE', 'EQUALS','MOD',
 		  'LPAREN','RPAREN',
@@ -29,13 +29,11 @@ t_TIMES = r'\*'
 t_EXP = r'\*\*'
 t_DIVIDE = r'/'
 t_EQUALS = r'='
-t_NAME = '[a-zA-Z_][a-zA-Z0-9_]*'
+t_NAME = '[a-z_][a-zA-Z0-9_]*'
 t_LPAREN = r'\('
 t_RPAREN = r'\)'
 t_LCORC = r'\['
 t_RCORC = r'\]'
-#t_RLLAVE = r'\]'
-#t_LLLAVE = r'\}'
 t_COMA = r'\,'
 t_DPUNTOS = r'\:'
 t_PUNTO = r'\.'
@@ -46,10 +44,11 @@ t_AND = r'\&'
 t_OR = r'\|'
 
 
+
 def t_ID(t):
     r'[a-zA-Z_][a-zA-Z_0-9]*'
     t.type = reserved.get(t.value, 'ID')  # Check for reserved words
-    # return t
+    return t
 
 # alternativa
 # t_ignore_COMMENT = r'\#.*
@@ -94,21 +93,28 @@ def imprimir_token(data,lexer):
             break  # No more input
         print(tok)
 		
-basico = '''def numerospares(n):
-    #creamos lista
-    lista=[]
-    for i in range(n):
-        valor=int(input("ingrese numero: "))
-        if(valor%2==0):
-            lista.append(valor)
-    return lista
-
-print(numerospares(7))
+basico = '''
+def suma(num):
+    if(num%2==0):
+        print("Es par")
+    else:
+        print("No es par")
+suma(7)
 '''
 
 
 
 imprimir_token(basico,lexer)
+
+
+
+precedence =(
+	('left','PLUS','MINUS'),
+	('left','TIMES','DIVIDE'),
+	('left','LPAREN','RPAREN'),
+	('left','MOD','EXP'),
+	('left','LCORC','RCORC')
+    )
 #imprimir_token(intermedio,lexer)
 #imprimir_token(avanzado,lexer)
 
@@ -116,6 +122,7 @@ imprimir_token(basico,lexer)
 def p_expr_funcion(p):
     '''expr_funcion : NAME LPAREN params RPAREN
                     | NAME LPAREN RPAREN'''
+
 
 #regla para definir los parametros de una funcion
 def p_params(p):
@@ -149,6 +156,7 @@ def p_expr_float(p):
 #regla para definir una expresion de funcion generica
 def p_expr_def_funcion(p):
     r'''expr_def_funcion : DEF expr_funcion DPUNTOS'''
+
 
 #regla para definir cualquier linea de codigo
 def p_linea_codigo(p):
@@ -238,7 +246,8 @@ def p_operador_alge(p):
 	                 | DIVIDE
 	                 | EXP
 	                 | MOD'''
-
+def p_empty(p):
+	'''empty :'''
 
 def p_error(p):
     if p == None:
