@@ -11,26 +11,26 @@ reserved = {'def':'DEF',
 			'in':'IN',
 			'range':'RANGE',
 			'True':'TRUE',
-			'False':'FALSE'}
-tokens = ['ID','NAME', 'COMMENT', 'MAYOR', 'MENOR','PUNTO',
+			'False':'FALSE',
+            }
+tokens =  ['ID', 'COMMENT', 'MAYOR', 'MENOR','PUNTO',
 		  'NUMBER','STRING',
 		  'PLUS','MINUS', 'TIMES', 'DIVIDE', 'EQUALS','MOD',
 		  'LPAREN','RPAREN',
 		  'LCORC', 'RCORC',
-#		  'LLLAVE', 'RLLAVE',
 		  'EXP', 'COMA', 'DPUNTOS',
 		  'AND','OR',
-		  'NEGADOR']+ list(reserved.values())
+		  'NEGADOR','DEQUALS'] + list(reserved.values())
 
-t_STRING = r'\".*?\"'
+t_STRING = r'\".*?\" | \'.*\''
 t_MOD = r'\%'
 t_PLUS = r'\+'
 t_MINUS = r'\-'
 t_TIMES = r'\*'
 t_EXP = r'\*\*'
 t_DIVIDE = r'/'
+t_DEQUALS = r'=='
 t_EQUALS = r'='
-t_NAME = '[a-z_][a-zA-Z0-9_]*'
 t_LPAREN = r'\('
 t_RPAREN = r'\)'
 t_LCORC = r'\['
@@ -45,22 +45,18 @@ t_AND = r'\&'
 t_OR = r'\|'
 
 
-
 def t_ID(t):
     r'[a-zA-Z_][a-zA-Z_0-9]*'
     t.type = reserved.get(t.value, 'ID')  # Check for reserved words
     return t
 
-# alternativa
-# t_ignore_COMMENT = r'\#.*
-# revisar la Reg Ex
-# r'\#.*'
+# No return value. Token discard
 def t_COMMENT(t):
-    r'(\#.*|\'\'\'.*\'\'\')'
+    r'\#.*'
     pass
 
 
-# No return value. Token discarde
+
 def t_NUMBER(t):
     r'\d+'
     t.value = int(t.value)
@@ -69,7 +65,7 @@ def t_NUMBER(t):
 
 # Ignored characters
 
-t_ignore = "\s | \t"
+t_ignore = " \t"
 
 
 def t_newline(t):
@@ -79,37 +75,15 @@ def t_newline(t):
 
 def t_error(t):
     print("Illegal character '%s'" % t.value[0])
-
     t.lexer.skip(1)
 
 
 
 # Se construye el lex
 lexer = lex.lex()
-def imprimir_token(data,lexer):
-    lexer.input(data)
-    while True:
-        tok = lexer.token()
-        if not tok:
-            break  # No more input
-        print(tok)
-		
-basico = '''
-def suma(num):
-    if(num%2==0):
-        print("Es par")
-    else:
-        print("No es par")
-suma(7)
-'''
-
-
-
-imprimir_token(basico,lexer)
-
-
 
 precedence =(
+	('nonassoc', 'MENOR', 'MAYOR','DEQUALS'),
 	('left','PLUS','MINUS'),
 	('left','TIMES','DIVIDE'),
 	('left','LPAREN','RPAREN'),
@@ -119,11 +93,25 @@ precedence =(
 #imprimir_token(intermedio,lexer)
 #imprimir_token(avanzado,lexer)
 
-#regla para definir una funcion
-def p_expr_funcion(p):
-    '''expr_funcion : NAME LPAREN params RPAREN
-                    | NAME LPAREN RPAREN'''
+def p_bloque_codigo(p):
+    '''bloque_codigo : empty
+                     | linea_codigo empty
+                     | bloque_codigo linea_codigo empty'''
 
+    #regla para definir cualquier linea de codigo
+def p_linea_codigo(p):
+    '''linea_codigo : expr_funcion
+					| expr_def_funcion
+					| expr_asign
+					| expr_if_else
+					| def_for
+					| expr_return
+					| call_method'''
+
+
+#regla para definir una expresion de funcion generica
+def p_expr_def_funcion(p):
+    r'''expr_def_funcion : DEF expr_funcion DPUNTOS'''
 
 #regla para definir los parametros de una funcion
 def p_params(p):
@@ -131,20 +119,28 @@ def p_params(p):
 			  | params COMA variable
 			  | expr_funcion'''
 
-#regla para definir el tipo de variable
+    # regla para definir el tipo de variable
+
 def p_variable(p):
-    '''variable : NAME
-				| expr_str
-				| NUMBER
-				| expr_float
-				| bool
-				| lista'''
+    '''variable : ID
+                | expr_str
+                | NUMBER
+                | expr_float
+                | bool
+                | lista'''
+
+#regla para definir una funcion
+def p_expr_funcion(p):
+    '''expr_funcion : ID LPAREN params RPAREN
+                    | ID LPAREN RPAREN'''
+
+
+
 
 #regla para definir una lista
 def p_lista(p):
-    '''lista : NAME LCORC variable RCORC
-             | NAME LCORC RCORC
-             | NAME LCORC operaciones_algebraica RCORC'''
+    '''lista : ID LCORC variable RCORC
+             | ID LCORC operaciones_algebraica RCORC'''
 
 #regla para definir n string
 def p_expr_str(p):
@@ -154,31 +150,21 @@ def p_expr_str(p):
 def p_expr_float(p):
     '''expr_float : NUMBER PUNTO NUMBER'''
 
-#regla para definir una expresion de funcion generica
-def p_expr_def_funcion(p):
-    r'''expr_def_funcion : DEF expr_funcion DPUNTOS'''
 
-
-#regla para definir cualquier linea de codigo
-def p_linea_codigo(p):
-    '''linea_codigo : expr_funcion
-					| expr_asign
-					| expr_if_else
-					| def_for
-					| expr_return
-					| expr_def_funcion
-					| COMMENT'''
 
 #regla para definir una asignacion de valores
 def p_expr_asign(p):
-    '''expr_asign : NAME EQUALS variable
-                  | NAME EQUALS operaciones_algebraica'''
+    '''expr_asign : ID EQUALS variable
+                  | ID EQUALS expr_funcion
+                  | ID EQUALS operaciones_algebraica
+                  | ID EQUALS LCORC RCORC
+                  | ID EQUALS call_method'''
 
 #regla para definir los operadores de igualdad
 def p_operador_igualdad(p):
     '''operador_igualdad : MAYOR
                          | MENOR
-                         | EQUALS EQUALS
+                         | DEQUALS
                          | MAYOR EQUALS
                          | MENOR EQUALS
                          | NEGADOR EQUALS'''
@@ -191,26 +177,22 @@ def p_expr_return(p):
 
 #regla para definir los operadores de condicion
 def p_expr_if_else(p):
-    ''' expr_if_else : IF condiciones_para_expr_if_else DPUNTOS
-                       | ELIF condiciones_para_expr_if_else DPUNTOS
-                       | ELSE DPUNTOS'''
+    ''' expr_if_else : IF condiciones_expr_if_else DPUNTOS
+                     | ELIF condiciones_expr_if_else DPUNTOS
+                     | ELSE DPUNTOS'''
+
+#regla para las condiciones dentro de un if-else
+def p_codiciones_para_expr_if_else(p):
+	'''condiciones_expr_if_else : condiciones
+                                | condiciones and_or condiciones_expr_if_else
+                                | LPAREN condiciones_expr_if_else RPAREN'''
 
 #regla para los diferentes tipos de condicones que pueden existir
 def p_condiciones(p):
     '''condiciones : variable
-                    | expr_funcion operador_igualdad variable
-                    | expr_funcion
-                    | expr_funcion operador_igualdad expr_funcion
-                    | variable operador_igualdad expr_funcion
-                    | operaciones_algebraica operador_igualdad expr_funcion
-                    | operaciones_algebraica operador_igualdad variable
-                    | variable operador_igualdad operaciones_algebraica
-                    | expr_funcion operador_igualdad operaciones_algebraica'''
-
-#regla para las condiciones dentro de un if-else
-def p_codiciones_para_expr_if_else(p):
-	'''condiciones_para_expr_if_else : condiciones
-                                   | condiciones_para_expr_if_else and_or condiciones'''
+                   | expr_funcion
+                   | operaciones_algebraica operador_igualdad variable
+                   | condiciones operador_igualdad condiciones'''
 
 #regla para definir un ciclo for
 def p_def_for(p):
@@ -218,9 +200,13 @@ def p_def_for(p):
 
 #regla para definir los parametros de for
 def p_params_for(p):
-    '''params_for :	variable
-                  | variable COMA variable
-                  | variable  COMA variable COMA variable'''
+    '''params_for :	variable_for
+                  | variable_for COMA variable_for
+                  | variable_for  COMA variable_for COMA variable_for'''
+
+def p_variable_for(p):
+    '''variable_for : variable
+                    | operaciones_algebraica'''
 
 #regla para booleano
 def p_bool(p):
@@ -234,10 +220,13 @@ def p_and_or(p):
 
 #regla paraoperaciones algebraica
 def p_operaciones_algebraica(p):
-	'''operaciones_algebraica : variable operador_alge variable
-                              | LPAREN variable operador_alge variable RPAREN
-                              |  operaciones_algebraica operador_alge variable
-                              | variable operador_alge operaciones_algebraica'''
+	'''operaciones_algebraica : p_variables_operaciones_algebraica operador_alge p_variables_operaciones_algebraica
+                              | LPAREN p_variables_operaciones_algebraica operador_alge p_variables_operaciones_algebraica RPAREN
+                              | operaciones_algebraica operador_alge p_variables_operaciones_algebraica'''
+
+def p_variables_operaciones_algebraica(p):
+    '''p_variables_operaciones_algebraica : variable
+                                         | expr_funcion'''
 
 # regla para operadores algebraico
 def p_operador_alge(p):
@@ -245,19 +234,40 @@ def p_operador_alge(p):
 	                 | MINUS
 	                 | TIMES
 	                 | DIVIDE
-	                 | EXP
-	                 | MOD'''
+	                 | MOD
+	                 | EXP'''
+def p_call_method(p):
+    '''call_method : variable PUNTO expr_funcion
+                   | call_method PUNTO expr_funcion'''
+
 def p_empty(p):
-	'''empty :'''
+	'''empty : '''
 
 def p_error(p):
+    print(p)
     if p == None:
         token = "end of file"
     else:
       token = f"{p.type}({p.value}) on line {p.lineno}"
     print(f"Syntax error: Unexpected {token}")
 yacc.yacc()
-yacc.parse(basico)
+
+#codigo puede ser una linea o todo el archivo como strft preferible que sea todo el archivo
+def obtener_list_token(codigo,lexer):
+    lexer.input(codigo)
+    list=[]
+    while True:
+        tok = lexer.token()
+        if not tok:
+            break  # No more input
+        print(tok)
+        list.append(tok)
+    return list
+
+def comparar_tokens(list1,list2):
+#algo
+    t=0
+
 
 def buscarFicheros(directorio):
     ficheros = []
