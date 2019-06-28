@@ -1,3 +1,4 @@
+import os
 import ply.lex as lex
 import ply.yacc as yacc
 
@@ -11,6 +12,7 @@ reserved = {'def':'DEF',
 			'range':'RANGE',
 			'True':'TRUE',
 			'False':'FALSE',
+            'append':'APPEND',
             }
 tokens =  ['ID', 'COMMENT', 'MAYOR', 'MENOR','PUNTO',
 		  'NUMBER','STRING',
@@ -79,6 +81,7 @@ def t_error(t):
 
 
 # Se construye el lex
+
 lexer = lex.lex()
 def imprimir_token(data,lexer):
     lexer.input(data)
@@ -87,25 +90,6 @@ def imprimir_token(data,lexer):
         if not tok:
             break  # No more input
         print(tok)
-		
-basico = '''
-#funcion avanzada
-def encriptar(cadena):
-  r=''
-  n=len(cadena)
-  for i in range(0,n-1,2):
-    a=cadena[i]
-    b=cadena[i+1]
-    r=r+b+a()
-  if(n%2!=0):
-    r=r+cadena[n-1]
-  return r
-print(encriptar("programas"))
-'''
-
-
-
-imprimir_token(basico,lexer)
 
 
 
@@ -116,9 +100,8 @@ precedence =(
 	('left','LPAREN','RPAREN'),
 	('left','MOD','EXP'),
 	('left','LCORC','RCORC')
-    )
-#imprimir_token(intermedio,lexer)
-#imprimir_token(avanzado,lexer)
+)
+
 
 def p_bloque_codigo(p):
     '''bloque_codigo : empty
@@ -247,12 +230,12 @@ def p_and_or(p):
 
 #regla paraoperaciones algebraica
 def p_operaciones_algebraica(p):
-	'''operaciones_algebraica : p_variables_operaciones_algebraica operador_alge p_variables_operaciones_algebraica
-                              | LPAREN p_variables_operaciones_algebraica operador_alge p_variables_operaciones_algebraica RPAREN
-                              | operaciones_algebraica operador_alge p_variables_operaciones_algebraica'''
+	'''operaciones_algebraica : variables_operaciones_algebraica operador_alge variables_operaciones_algebraica
+                              | LPAREN variables_operaciones_algebraica operador_alge variables_operaciones_algebraica RPAREN
+                              | operaciones_algebraica operador_alge variables_operaciones_algebraica'''
 
 def p_variables_operaciones_algebraica(p):
-    '''p_variables_operaciones_algebraica : variable
+    '''variables_operaciones_algebraica : variable
                                          | expr_funcion'''
 
 # regla para operadores algebraico
@@ -270,11 +253,75 @@ def p_call_method(p):
 def p_empty(p):
 	'''empty : '''
 
-def p_error(p):
-    if p == None:
-        token = "end of file"
+resultado_gramatica= []
+
+def p_error(t):
+    global resultado_gramatica
+    if t:
+        resultado = "Error sintactico de tipo {} en el valor {}".format( str(t.type),str(t.value))
+        print(resultado)
     else:
-      token = f"{p.type}({p.value}) on line {p.lineno}"
-    print(f"Syntax error: Unexpected {token}")
-yacc.yacc()
-yacc.parse(basico)
+        resultado = "Error sintactico {}".format(t)
+        print(resultado)
+    resultado_gramatica.append(resultado)
+
+def buscarFicheros(directorio):
+    ficheros = []
+    numarchivo = ''
+    respuesta = False
+    cont=1
+    files=""
+    for base, dirs, files in os.walk(directorio):
+        ficheros.append(files)
+    for file in files:
+        print(str(cont)+ ".  "+ file)
+        cont = cont+1
+    while respuesta == False:
+        numarchivo = input('\nNumero del test: ')
+        for file in files:
+            if file == files[int(numarchivo)-1]:
+                repuesta = True
+                print("Selección de archivo \"%s\" exitoso\n")
+                break
+
+        print("no existe el archivo escogido \"%s\" \n")
+        break
+    return files[int(numarchivo)-1]
+
+directorio = './Pruebas/'
+archivo1 = buscarFicheros(directorio)
+test1 = directorio + archivo1
+
+fp1 = open(test1, "r")
+
+cadena1 = fp1.read()
+imprimir_token(cadena1,lexer)
+#yacc.parse(cadena1)
+#parser.yacc(cadena1)
+fp1.close()
+parser=yacc.yacc()
+ast1=parser.parse(cadena1, lexer)
+
+archivo2 = buscarFicheros(directorio)
+test2 = directorio + archivo2
+fp2 = open(test2, "r")
+cadena2 = fp2.read()
+imprimir_token(cadena2,lexer)
+fp2.close()
+
+
+#print(yacc.parse(cadena1))
+ast2=parser.parse(cadena2, lexer)
+
+def plagio(ast1,ast2):
+    count = 0
+    for item in ast1:
+        if item in ast2:
+            count+=1
+    porcentaje = (count / (ast1.__len__())) * 100
+    print(porcentaje)
+
+
+#plagio(ast1,ast2)
+
+
