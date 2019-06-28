@@ -1,3 +1,4 @@
+import os
 import ply.lex as lex
 import ply.yacc as yacc
 
@@ -257,3 +258,37 @@ def p_error(p):
     print(f"Syntax error: Unexpected {token}")
 yacc.yacc()
 yacc.parse(basico)
+
+def buscarFicheros(directorio):
+    ficheros = []
+    numarchivo = ''
+    respuesta = False
+    cont=1
+
+    for base, dirs, files in os.walk(directorio):
+        ficheros.append(files)
+    for file in files:
+        print(str(cont)+ ".  "+ file)
+        cont = cont+1
+    while respuesta == False:
+        numarchivo = input('\nNumero del test: ')
+        for file in files:
+            if file == files[int(numarchivo)-1]:
+                repuesta = True
+                print("Selección de archivo \"%s\" exitoso\n")
+                break
+
+        print("no existe el archivo escogido \"%s\" \n")
+        break
+    return files[int(numarchivo)-1]
+
+directorio = 'C:\Users\Casa-PC\Downloads\ProyectoLP-master\PythonPlag\Pruebas'
+archivo = buscarFicheros(directorio)
+test = directorio + archivo
+fp = open(test, "r")
+cadena = fp.read()
+fp.close()
+
+analizador = lex.lex()
+analizador.input(cadena)
+
