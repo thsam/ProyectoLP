@@ -13,6 +13,9 @@ reserved = {'def':'DEF',
 			'True':'TRUE',
 			'False':'FALSE',
             'append':'APPEND',
+            'index':'INDEX',
+            'pop':'POP',
+            'len':'LEN'
             }
 tokens =  ['ID', 'COMMENT', 'MAYOR', 'MENOR','PUNTO',
 		  'NUMBER','STRING',
@@ -91,7 +94,29 @@ def imprimir_token(data,lexer):
             break  # No more input
         print(tok)
 
+def lexico():
+    data = txtPrograma1.get(1.0,END)
+    imprimir_token(data,lexer)
+    data2 = txtPrograma2.get(1.0,END)
+    imprimir_token(data2, lexer)
+    tks = tokenize(data)
+    tks2 =tokenize(data2)
+#    txtlexico.delete(1.0,END)
+    txtlexico.insert(1.0,tks)
+#    txtlexico2.delete(1.0, END)
+    txtlexico2.insert(1.0, tks2)
 
+def sintactico():
+    data = txtPrograma1.get(1.0, END)
+    data2 = txtPrograma2.get(1.0, END)
+    global ast
+    ast = yacc.parse(data, lexer=lexer)
+    global ast2
+    ast2= yacc.parse(data2, lexer=lexer)
+    txtsemantic.delete(1.0, END)
+    txtsemantic.insert(1.0, ast)
+    txtsemantic2.delete(1.0, END)
+    txtsemantic2.insert(1.0, ast2)
 
 precedence =(
 	('nonassoc', 'MENOR', 'MAYOR','DEQUALS'),
@@ -126,8 +151,10 @@ def p_expr_def_funcion(p):
 #regla para definir los parametros de una funcion
 def p_params(p):
     '''params : variable
-			  | params COMA variable
-			  | expr_funcion'''
+			  | params COMA params
+			  | expr_funcion
+			  | expr_asign
+			  | operaciones_algebraica'''
 
     # regla para definir el tipo de variable
 
@@ -142,15 +169,17 @@ def p_variable(p):
 #regla para definir una funcion
 def p_expr_funcion(p):
     '''expr_funcion : ID LPAREN params RPAREN
-                    | ID LPAREN RPAREN'''
-
+                    | ID LPAREN RPAREN
+                    | LEN LPAREN params RPAREN'''
 
 
 
 #regla para definir una lista
 def p_lista(p):
     '''lista : ID LCORC variable RCORC
-             | ID LCORC operaciones_algebraica RCORC'''
+             | ID LCORC operaciones_algebraica RCORC
+             | LCORC params COMA params RCORC'''
+
 
 #regla para definir n string
 def p_expr_str(p):
@@ -246,9 +275,17 @@ def p_operador_alge(p):
 	                 | DIVIDE
 	                 | MOD
 	                 | EXP'''
+
+def p_funcion_lista(p):
+    ''' funcion_lista : APPEND
+                      | INDEX
+                      | POP
+
+    '''
 def p_call_method(p):
     '''call_method : variable PUNTO expr_funcion
-                   | call_method PUNTO expr_funcion'''
+                   | call_method PUNTO expr_funcion
+                   | variable PUNTO funcion_lista LPAREN params RPAREN'''
 
 def p_empty(p):
 	'''empty : '''
@@ -264,7 +301,7 @@ def p_error(t):
         resultado = "Error sintactico {}".format(t)
         print(resultado)
     resultado_gramatica.append(resultado)
-
+'''
 def buscarFicheros(directorio):
     ficheros = []
     numarchivo = ''
@@ -322,6 +359,94 @@ def plagio(ast1,ast2):
     print(porcentaje)
 
 
-#plagio(ast1,ast2)
+#plagio(ast1,ast2)'''
+
+
+def tokenize(data):
+    tkns = []
+    lexer.input(data)
+    while (True):
+        tok = lexer.token()
+        if not tok:
+            break
+        if (tok.type != 'newline'):
+            tkns.append([tok.type, tok.value])
+    return (tkns)
+
+from tkinter import *
+from tkinter.ttk import Frame, Label, Entry
+
+
+
+import PythonPlag
+
+tokens=PythonPlag.tokens
+# Se construye el lex
+
+
+
+raiz = Tk()
+raiz.geometry('1500x700')
+raiz.configure(bg = 'beige')
+raiz.title('Comparador de Código')
+
+
+
+txtPrograma1 = Text(raiz)
+txtPrograma1.place(x=100, y=100, width=300, height=450)
+txtPrograma2 = Text(raiz)
+txtPrograma2.place(x=450, y=100, width=300, height=450)
+
+txtlexico = Text(raiz)
+txtlexico.place(x=775, y=100, width=250, height=220)
+txtlexico2 = Text(raiz)
+txtlexico2.place(x=1030, y=100, width=250, height=220)
+txtsemantic = Text(raiz)
+txtsemantic.place(x=775, y=325, width=250, height=220)
+txtsemantic2 = Text(raiz)
+txtsemantic2.place(x=1030, y=325, width=250, height=220)
+txtplagio = Text(raiz)
+txtplagio.place(x=1030, y=585, width=250, height=25)
+
+lbllexico = Label(raiz, text='Analisis Lexico Programa1')
+lbllexico.place(x=775, y=75, width=250, height=25)
+lbllexico2 = Label(raiz, text='Analisis Lexico Programa2')
+lbllexico2.place(x=1030, y=75, width=250, height=25)
+lblsemantic = Label(raiz, text='Analisis semantico Programa1')
+lblsemantic.place(x=775, y=555, width=250, height=25)
+lblsemantic2 = Label(raiz, text='Analisis semantico Programa2')
+lblsemantic2.place(x=1030, y=555, width=250, height=25)
+lblplagio = Label(raiz, text='Porcentaje de plagio:')
+lblplagio.place(x=775, y=585, width=250, height=25)
+btnSalir = Button(raiz, text='Salir', command=quit)
+btnSalir.place(x=1100, y=650, width=100, height=25)
+#--
+btnLexico = Button(raiz, text='léxico',command=lexico)
+btnLexico.place(x=100, y=25, width=100, height=25)
+btnSintactico = Button(raiz, text='Sintáctico',command=sintactico)
+btnSintactico.place(x=350, y=25, width=100, height=25)
+btnPlagio = Button(raiz, text='Plagio',)
+btnPlagio.place(x=600, y=25, width=100, height=25)
+#----
+#btnLexico = Button(raiz, text='léxico', command=lexico)
+#btnLexico.place(x=100, y=25, width=100, height=25)
+#btnSintactico = Button(raiz, text='Sintáctico', command=sintactico)
+#btnSintactico.place(x=350, y=25, width=100, height=25)
+#btnPlagio = Button(raiz, text='Plagio', command=plagio)
+#btnPlagio.place(x=600, y=25, width=100, height=25)
+
+lblPrograma1 = Label(raiz, text='Programa1')
+lblPrograma1.place(x=100, y=75, width=100, height=25)
+lblPrograma2 = Label(raiz, text='Programa2')
+lblPrograma2.place(x=450, y=75, width=100, height=25)
+
+
+btnClear1 = Button(raiz, text='Clear', command=lambda: txtPrograma1.delete(1.0,END))
+btnClear1.place(x=100, y=550, width=100, height=25)
+btnClear2 = Button(raiz, text='Clear', command=lambda: txtPrograma2.delete(1.0,END))
+btnClear2.place(x=450, y=550, width=100, height=25)
+raiz.mainloop()
+
+
 
 

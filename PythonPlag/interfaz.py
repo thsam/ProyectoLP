@@ -1,67 +1,79 @@
 from tkinter import *
 from tkinter.ttk import Frame, Label, Entry
+#from tkinter import *
+#from tkinter import ttk
+import os
+import ply.lex as lex
+import PythonPlag
 
-#from AvanceFinalLP.yacc import validar
-
-
-class App(Frame):
-    def __init__(self, parent):
-        Frame.__init__(self, parent)
-        self.parent = parent
-        self.initUI()
-
-    def initUI(self):
-        self.parent.title("COMPILADOR")
-        self.pack(fill=BOTH, expand=True)
-        global value
-        value = 0
-        global expr
-        expr = StringVar() #pide por pantalla
-        global res
-        res = StringVar()
-
-        frame1 = Frame(self)
-        frame1.pack(fill=X)
-
-        lbl1 = Label(frame1, text=" INGRESE FUNCION:", width=18)
-        lbl1.pack(side=TOP, padx=5, pady=5)
-
-
-        #entry1 = Entry(frame1,textvariable=expr, width="50")  #textBox asigna a entry
-        #entry1.pack(fill=Y, padx=5, expand=True)
-
-        t = Text(frame1, height=10, width=40) #en lugar de usar entry, uso esta entrada
-        t.pack()
-
-        frame3 = Frame(self)
-        frame3.pack(fill=Y)
-
-        #btnplus = Button(frame3, text="VALIDAR", width=8, command=self.validar, bg = "green")
-        #btnplus.pack(side=TOP, anchor=N, padx=8, pady=5)  #este boton deberá funcionar luego
+tokens=PythonPlag.tokens
+# Se construye el lex
 
 
 
-    """def errorMsg(self,msg):
-        if msg == 'error':
-            tkinter.messagebox.showerror('Error','Ingrese expresion')
-
-    def validar(self):
-        if expr.get() == '':
-            self.errorMsg('error')
-        else:
-            result = validar(expr.get())
-            res.set(result)"""
+raiz = Tk()
+raiz.geometry('1500x700')
+raiz.configure(bg = 'beige')
+raiz.title('Comparador de Código')
 
 
 
-def main():
-    root = Tk()
-    root.geometry("400x300")
-    app = App(root)
-    root.mainloop()
+txtPrograma1 = Text(raiz)
+txtPrograma1.place(x=100, y=100, width=300, height=450)
+txtPrograma2 = Text(raiz)
+txtPrograma2.place(x=450, y=100, width=300, height=450)
+
+txtlexico = Text(raiz)
+txtlexico.place(x=775, y=100, width=250, height=220)
+txtlexico2 = Text(raiz)
+txtlexico2.place(x=1030, y=100, width=250, height=220)
+txtsemantic = Text(raiz)
+txtsemantic.place(x=775, y=325, width=250, height=220)
+txtsemantic2 = Text(raiz)
+txtsemantic2.place(x=1030, y=325, width=250, height=220)
+txtplagio = Text(raiz)
+txtplagio.place(x=1030, y=585, width=250, height=25)
+
+lbllexico = Label(raiz, text='Analisis Lexico Programa1')
+lbllexico.place(x=775, y=75, width=250, height=25)
+lbllexico2 = Label(raiz, text='Analisis Lexico Programa2')
+lbllexico2.place(x=1030, y=75, width=250, height=25)
+lblsemantic = Label(raiz, text='Analisis semantico Programa1')
+lblsemantic.place(x=775, y=555, width=250, height=25)
+lblsemantic2 = Label(raiz, text='Analisis semantico Programa2')
+lblsemantic2.place(x=1030, y=555, width=250, height=25)
+lblplagio = Label(raiz, text='Porcentaje de plagio:')
+lblplagio.place(x=775, y=585, width=250, height=25)
+btnSalir = Button(raiz, text='Salir', command=quit)
+btnSalir.place(x=1100, y=650, width=100, height=25)
+#--
+btnLexico = Button(raiz, text='léxico')
+btnLexico.place(x=100, y=25, width=100, height=25)
+btnSintactico = Button(raiz, text='Sintáctico')
+btnSintactico.place(x=350, y=25, width=100, height=25)
+btnPlagio = Button(raiz, text='Plagio',)
+btnPlagio.place(x=600, y=25, width=100, height=25)
+#----
+#btnLexico = Button(raiz, text='léxico', command=lexico)
+#btnLexico.place(x=100, y=25, width=100, height=25)
+#btnSintactico = Button(raiz, text='Sintáctico', command=sintactico)
+#btnSintactico.place(x=350, y=25, width=100, height=25)
+#btnPlagio = Button(raiz, text='Plagio', command=plagio)
+#btnPlagio.place(x=600, y=25, width=100, height=25)
+
+lblPrograma1 = Label(raiz, text='Programa1')
+lblPrograma1.place(x=100, y=75, width=100, height=25)
+lblPrograma2 = Label(raiz, text='Programa2')
+lblPrograma2.place(x=450, y=75, width=100, height=25)
+
+
+btnClear1 = Button(raiz, text='Clear', command=lambda: txtPrograma1.delete(1.0,END))
+btnClear1.place(x=100, y=550, width=100, height=25)
+btnClear2 = Button(raiz, text='Clear', command=lambda: txtPrograma2.delete(1.0,END))
+btnClear2.place(x=450, y=550, width=100, height=25)
+raiz.mainloop()
 
 
 
 
-if __name__ == '__main__':
-    main()
+
