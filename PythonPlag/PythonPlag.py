@@ -292,7 +292,7 @@ def buscarFicheros(directorio):
         break
     return files[int(numarchivo)-1]
 
-directorio = 'C:\Users\Casa-PC\Downloads\ProyectoLP-master\PythonPlag\Pruebas'
+directorio = '.\Pruebas'
 archivo = buscarFicheros(directorio)
 test = directorio + archivo
 fp = open(test, "r")
